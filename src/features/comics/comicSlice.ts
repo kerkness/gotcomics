@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../app/store';
+import { useDispatch, useSelector } from "react-redux";
 
 export interface Comic {
     name: string;
@@ -28,3 +29,16 @@ export const comicSlice = createSlice({
         },
     }
 });
+
+export function useComics(): UseComics {
+
+    const dispatch = useDispatch();
+	const state = useSelector((state: RootState) => state.comics);
+
+    return {
+        ...state,
+        setSearch: (search: string) => dispatch(comicSlice.actions.setSearch(search)),
+    }
+}
+
+export default comicSlice.reducer;
